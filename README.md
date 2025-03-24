@@ -1,6 +1,6 @@
 # 🐦‍🔥 GASTAIL BOT [acesse aqui](https://t.me/GasTail_bot) 
 
-[![image](https://github.com/user-attachments/assets/ccc81998-bc69-4ff3-9967-f0fbb0eaf1bc)](https://whimsical.com/gastail-bot-C5Pf2PrrrYgAQMaoXXVUEg)
+[![image](https://github.com/user-attachments/assets/9683edc5-1768-4f74-8075-b2329cd2eb8a)](https://samuelvictorol.github.io/portfolio/portfolio)
 
 ## 💡 [Visualizar Board](https://whimsical.com/gastail-bot-C5Pf2PrrrYgAQMaoXXVUEg)
 
@@ -74,10 +74,6 @@
  - BOT_BACKEND_URL
  - CONNECTION_STRING (mongodb)
  - PORT (5000 padrão)
-
-![image](https://github.com/user-attachments/assets/5ad8990a-73e2-4ce8-8649-b6ce23b016f4)
-![image](https://github.com/user-attachments/assets/f0cac460-3c76-4d3d-abdd-79bae0a21fff)
-
 <br>
 
 > Por: [Samuel Victor](https://samuelvictorol.github.io/portfolio/)<br>
