@@ -31,19 +31,19 @@
 
 # 🌍 Ambiente de Produção
 
-## 🛠️ Backend - Render
+## Backend - Render
 
 > Linguagem: Javascript<br>
 > Framework: Node + Express<br>
 > O Backend do Projeto está em produção na url: https://gastaill-bot.onrender.com<br>
 
-## 🖥️ Frontend - Netlify
+## Frontend - Netlify
 
 > Linguagem: Javascript<br>
 > Framework: Quasar + Vue3<br>
 > O Frontend do Projeto está em produção na url: <br>
 
-## 🎲 Banco de Dados - Mongodb
+## Banco de Dados - Mongodb
 
 > Linguagem: NoSql<br>
 > Framework:  Mongo<br>
