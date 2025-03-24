@@ -77,5 +77,7 @@
  - PORT (5000 padrão)
 <br>
 
+![image](https://github.com/user-attachments/assets/30ff243c-aac2-47bc-95c9-a1f5fb00300d)
+
 > Por: [Samuel Victor](https://samuelvictorol.github.io/portfolio/)<br>
 
