@@ -1,13 +1,14 @@
 # 🐦‍🔥 GASTAIL BOT [acesse aqui](https://t.me/GasTail_bot) 
 
-[![image](https://github.com/user-attachments/assets/9683edc5-1768-4f74-8075-b2329cd2eb8a)](https://samuelvictorol.github.io/portfolio/portfolio)
-
 ## 💡 [Visualizar Board](https://whimsical.com/gastail-bot-C5Pf2PrrrYgAQMaoXXVUEg)
 
-# Orientação a Objetos e Arquitetura
+[![image](https://github.com/user-attachments/assets/9683edc5-1768-4f74-8075-b2329cd2eb8a)](https://samuelvictorol.github.io/portfolio/portfolio)
+
+
+# 🏯 Arquitetura
 - <strong>Models</strong>: esboçam as entidades que serão persistidas no banco;
 - <strong>Controllers</strong>: recebem e retornam as requisições além de redirecioná-las para interação com o Bot e Managers;
-- <strong>Managers</strong>: processam as requisições e interações com as Models e Classes (regras de negócios);
+- <strong>Managers</strong>: processam as requisições e interagem com as Models e Classes (regras de negócios);
 - <strong>Classes</strong>: declarações do objetos que serão instanciados para executar funções específicas mas não necessariamente serão persistidos na base;
 - <strong>Enums</strong>: dicionários contendo strings que são utilizadas para retornar mensagens (erro, sucesso, menus etc) padronizadas de acordo com a necessidade;
 
