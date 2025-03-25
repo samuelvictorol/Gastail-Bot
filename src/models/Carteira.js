@@ -4,9 +4,8 @@ const { Schema } = mongoose;
 
 const carteiraSchema = new Schema({
     moeda: {
-        type: Number,
+        type: String,
         required: true,
-        default: 0, // Define um valor padrão caso não seja informado
     },
     saldo: {
         type: Number,

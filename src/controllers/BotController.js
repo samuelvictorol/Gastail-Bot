@@ -28,6 +28,7 @@ const BotController = {
         try {
             const message = reqData.message
             const chat = message.chat;
+            await Gastail.setUsuarioContext(chat);
             if (message.text.startsWith('/')) {
                 await Gastail.exeComando(chat, message.text)
             } else await Gastail.exeOpcaoMenu(chat, message.text);

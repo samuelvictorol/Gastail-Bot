@@ -17,7 +17,7 @@ const UsuarioManager = {
             saldo: 0,
             chat_id: userData.id,
             token: 'GasToken:' +  userData.id + userData.username,
-            acoes: [],
+            carteiras: [],
         })
         await novoUsuario.save()
         .then(() => {

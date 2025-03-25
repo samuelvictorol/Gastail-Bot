@@ -1,8 +1,10 @@
 const UsuarioManager = require('../managers/UsuarioManager');
 const BotEnum = require("../enums/BotEnum");
+const CarteiraEnum = require("../enums/CarteiraEnum");
 const dotenv = require('dotenv');
 const axios = require('axios');
 const Utils = require('../Utils');
+const CarteiraManager = require('../managers/CarteiraManager');
 dotenv.config();
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -27,7 +29,7 @@ class GasTailBot {
     setUsuarioContext = async (userData) => {
         this.#usuario = await UsuarioManager.criar_usuario(userData)
         .then((usuario) => {
-            console.log('🐦 Usuário:', usuario)
+            // console.log('🐦 Usuário:', usuario)
             return usuario;
         })
         .catch((error) => {
@@ -68,6 +70,22 @@ class GasTailBot {
             case '/start':
                 await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START + BotEnum.REFERENCIA);
                 break;
+            case '/usdt':
+                const acao = Utils.extrairAcao(text);
+                if(!acao) {
+                    await this.sendMessage(chat.id, BotEnum.COMANDO_INVALIDO);
+                    return
+                }
+
+                const carteira = this.#usuario.carteiras.length > 0 ? this.#usuario.carteiras.find(carteira => carteira.tipo === CarteiraEnum.USDT) : null;
+                if(!carteira) {
+                    const carteiraUsdt = await CarteiraManager.criar_carteira(CarteiraEnum.USDT);
+                    await CarteiraManager.empilharAcao(carteiraUsdt._id, acao);
+                    this.#usuario.carteiras.push(carteiraUsdt);
+                    await this.#usuario.save();
+                }
+                await this.sendMessage(chat.id, 'Fundos em USDT registrados com sucesso!');
+                break;
             default:
                 await this.sendMessage(chat.id, 'Comando inválido. Digite /start para começar.');
                 break;
@@ -78,6 +96,10 @@ class GasTailBot {
         const opcao = text.split(" ")[0];
         console.log('Opção:', opcao);
         switch (opcao) {
+            case '3':
+                // registrar compra
+                await this.sendMessage(chat.id, BotEnum.MENU3_INSTRUCAO);
+                break;
             case '5':
             // mostra a cotação do Bitcoin, Ethereum e Dólar
                 try {
