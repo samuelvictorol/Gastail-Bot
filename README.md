@@ -1,4 +1,4 @@
-# 🐦‍🔥 GASTAIL BOT [acesse aqui](https://t.me/GasTail_bot) 
+# 🐦‍🔥 GASTAIL [acesse aqui](https://t.me/GasTail_bot) 
 
 ## 💡 [Visualizar Board](https://whimsical.com/gastail-bot-C5Pf2PrrrYgAQMaoXXVUEg)
 
