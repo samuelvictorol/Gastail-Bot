@@ -1,4 +1,3 @@
-const { Usuario: UsuarioModel } = require("../models/Usuario");
 const { Carteira: CarteiraModel } = require("../models/Carteira");
 
 const CarteiraManager = {

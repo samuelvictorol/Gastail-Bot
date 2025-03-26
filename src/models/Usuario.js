@@ -24,10 +24,10 @@ const usuarioSchema = new Schema({
         type: String,
         required: true,
     },
-    carteiras: [{
+    carteiras: {
         type: [mongoose.Schema.Types.ObjectId], // Referência para ações no banco
         ref: 'Carteira',
-    }]
+    }
 }, { timestamps: true });
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);

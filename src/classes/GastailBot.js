@@ -1,6 +1,6 @@
 const UsuarioManager = require('../managers/UsuarioManager');
 const BotEnum = require("../enums/BotEnum");
-const CarteiraEnum = require("../enums/CarteiraEnum");
+const { Usuario: UsuarioModel } = require("../models/Usuario");
 const dotenv = require('dotenv');
 const axios = require('axios');
 const Utils = require('../Utils');
@@ -61,8 +61,9 @@ class GasTailBot {
 
     exeComando = async (chat, text) => {
         const comando = text.split(" ")[0];
-        console.log(chat)
+        console.log(chat);
         console.log('Comando:', comando);
+    
         switch (comando) {
             case '/menu':
                 await this.sendMessage(chat.id, '/menu' + BotEnum.MENUS + BotEnum.FOOTER_START);
@@ -71,26 +72,45 @@ class GasTailBot {
                 await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START + BotEnum.REFERENCIA);
                 break;
             case '/usdt':
-                const acao = Utils.extrairAcao(text);
-                if(!acao) {
-                    await this.sendMessage(chat.id, BotEnum.COMANDO_INVALIDO);
-                    return
-                }
-
-                const carteira = this.#usuario.carteiras.length > 0 ? this.#usuario.carteiras.find(carteira => carteira.tipo === CarteiraEnum.USDT) : null;
-                if(!carteira) {
-                    const carteiraUsdt = await CarteiraManager.criar_carteira(CarteiraEnum.USDT);
-                    await CarteiraManager.empilharAcao(carteiraUsdt._id, acao);
-                    this.#usuario.carteiras.push(carteiraUsdt);
-                    await this.#usuario.save();
-                }
-                await this.sendMessage(chat.id, 'Fundos em USDT registrados com sucesso!');
+            case '/btc':
+            case '/eth':
+                await this.registrarFundos(chat, text, comando.substring(1).toUpperCase());
                 break;
             default:
                 await this.sendMessage(chat.id, 'Comando inválido. Digite /start para começar.');
                 break;
         }
-    }
+    };
+    
+    registrarFundos = async (chat, text, tipoCarteira) => {
+        const acao = Utils.extrairAcao(text);
+        console.log('Ação:', acao);
+        if (!acao) {
+            await this.sendMessage(chat.id, BotEnum.COMANDO_INVALIDO);
+            return;
+        } else if(typeof acao === 'string') {
+            await this.sendMessage(chat.id, acao);
+            return;
+        }
+        let carteira = null
+        if(this.#usuario.carteiras.length > 0) {
+            await this.#usuario.populate('carteiras');
+            carteira = this.#usuario.carteiras.find(carteira => carteira.moeda === tipoCarteira);
+            if(!carteira) {
+                carteira = await CarteiraManager.criar_carteira(tipoCarteira);
+                this.#usuario.carteiras.push(carteira._id);
+                await this.#usuario.save();
+            }   
+            await CarteiraManager.empilharAcao(carteira._id, acao);
+        } else {
+            carteira = await CarteiraManager.criar_carteira(tipoCarteira);
+            this.#usuario.carteiras.push(carteira._id);
+            await CarteiraManager.empilharAcao(carteira._id, acao);
+            await this.#usuario.save();
+        }
+        await this.sendMessage(chat.id, `Fundos em ${tipoCarteira} registrados com sucesso!`);
+    };
+    
 
     exeOpcaoMenu = async (chat, text) => {
         const opcao = text.split(" ")[0];

@@ -5,17 +5,31 @@ const Utils = {
         return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     },
     extrairAcao: (input) => {
-        const regex = /^\/(\w+)\s(\d+)\s([\d,.]+)$/;
+        const regex = /^\/(\w+)\s([\d,.]+)\s([\d,.]+)$/;
         const match = input.match(regex);
-
+    
         if (!match) return null; // Retorna null se o formato estiver incorreto
-
+    
         const tipo = match[1];
-        const quantidade = parseInt(match[2], 10);
-        const valor = parseFloat(match[3].replace(',', '.'));
-        const total = quantidade * valor;
-        return new Acao(tipo, valor, quantidade, total);
+        let quantidade = parseFloat(match[2].replace(',', '.')); // Converte a quantidade corretamente
+        const valor = parseFloat(match[3].replace(',', '.')).toFixed(6); // Ajuste para 6 casas decimais
+    
+        // Tratamento específico para cada tipo
+        if (tipo === 'btc' || tipo === 'eth') {
+            quantidade = quantidade / 100; // Converte para porcentagem
+        } else if (tipo === 'usdt') {
+            // Verifica se a quantidade de USDT é inteira
+            if (!Number.isInteger(quantidade)) {
+                return 'Quantidade para USDT deve ser um número inteiro.'
+            }
+            quantidade = Math.floor(quantidade); // Converte para inteiro, se necessário
+        }
+    
+        const total = (quantidade * parseFloat(valor)).toFixed(6); // Garante que o total também tenha até 6 casas
+    
+        return new Acao(tipo, parseFloat(valor), quantidade, parseFloat(total));
     },
+    
     getSaudacao: (username) => {
         const hour = new Date().getHours();
         let greeting;
