@@ -11,28 +11,26 @@ const Utils = {
         if (!match) return null; // Retorna null se o formato estiver incorreto
     
         const tipo = match[1];
-        let quantidadeEmReais = parseFloat(match[2].replace(',', '.')); // Quantidade em reais que o usuário deseja investir
-        const valorDoBtc = parseFloat(match[3].replace(',', '.')); // Preço do BTC em reais
+        let quantidade = parseFloat(match[2].replace(',', '.')); // Quantidade desejada (USDT, BTC, etc.)
+        const valorUnitario = parseFloat(match[3].replace(',', '.')); // Preço unitário da moeda em reais
     
         let total = 0;
     
         if (tipo === 'btc' || tipo === 'eth') {
-            // Calcula a fração de BTC ou ETH adquirida
-            total = quantidadeEmReais / valorDoBtc; // Calcula a quantidade de BTC ou ETH comprada
-    
+            total = quantidade / valorUnitario; // Fração de BTC ou ETH adquirida
         } else if (tipo === 'usdt') {
-            // Para USDT, multiplicamos a quantidade de USDT pelo valor informado
-            total = quantidadeEmReais * valorDoBtc; // Agora é multiplicação para USDT
-    
+            total = quantidade; // Para USDT, o total sempre é igual à quantidade
+            quantidade = quantidade * valorUnitario; // Quantidade convertida em reais
         } else {
             return 'Tipo de moeda não reconhecido.';
         }
     
-        // Garantindo que o total tenha até 5 casas decimais
+        // Arredonda os valores para até 5 casas decimais
+        quantidade = parseFloat(quantidade.toFixed(5));
         total = parseFloat(total.toFixed(5));
     
-        return new Acao(tipo, valorDoBtc, quantidadeEmReais, total); // Retorna o objeto com os dados
-    },     
+        return new Acao(tipo, valorUnitario, quantidade, total);
+    },
     getSaudacao: (username) => {
         const hour = new Date().getHours();
         let greeting;
