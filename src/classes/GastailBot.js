@@ -1,3 +1,5 @@
+
+
 const UsuarioManager = require('../managers/UsuarioManager');
 const BotEnum = require("../enums/BotEnum");
 const { Usuario: UsuarioModel } = require("../models/Usuario");
@@ -71,6 +73,10 @@ class GasTailBot {
             case '/start':
                 await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START + BotEnum.REFERENCIA);
                 break;
+            case '/saldo':
+                const saldoString = await UsuarioManager.get_saldo(chat.id);
+                await this.sendMessage(chat.id, saldoString);
+                break;
             case '/usdt':
             case '/btc':
             case '/eth':
@@ -116,6 +122,11 @@ class GasTailBot {
         const opcao = text.split(" ")[0];
         console.log('Opção:', opcao);
         switch (opcao) {
+            case '1':
+                // visualizar saldo
+                const saldoString = await UsuarioManager.get_saldo(chat.id);
+                await this.sendMessage(chat.id, saldoString);
+                break;
             case '3':
                 // registrar compra
                 await this.sendMessage(chat.id, BotEnum.MENU3_INSTRUCAO);
