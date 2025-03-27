@@ -36,13 +36,13 @@ const Utils = {
         let greeting;
     
         if (hour < 6) {
-            greeting = '🐦‍🔥🌙  Boa madrugada, ';
+            greeting = '🌃  Boa madrugada, ';
         } else if (hour < 12) {
-            greeting = '🐦‍🔥☀️  Bom dia, ';
+            greeting = '☀️  Bom dia, ';
         } else if (hour < 18) {
-            greeting = '🐦‍🔥🌇  Boa tarde, ';
+            greeting = '🌇  Boa tarde, ';
         } else {
-            greeting = '🐦‍🔥🌃  Boa noite, ';
+            greeting = '🌙  Boa noite, ';
         }
         return `/menu\n${greeting}${username}!`;
     }

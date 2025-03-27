@@ -71,7 +71,8 @@ class GasTailBot {
                 await this.sendMessage(chat.id, '/menu' + BotEnum.MENUS + BotEnum.FOOTER_START);
                 break;
             case '/start':
-                await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START + BotEnum.REFERENCIA);
+                await this.sendMessage(chat.id, BotEnum.REFERENCIA);
+                await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START );
                 break;
             case '/token':
                 await this.exeOpcaoMenu(chat, '2');
@@ -164,14 +165,14 @@ class GasTailBot {
                     const ethereumPrice = btcEthResponse.data.ethereum.brl;
                     const dolarPrice = dolarResponse.data.USDBRL.bid;
 
-                    const fontes = 'Fontes: CoinGecko e AwesomeAPI';
+                    // const fontes = 'Fontes: CoinGecko e AwesomeAPI';
                     const truncarDuasCasas = (valor) => Math.floor(valor * 100) / 100;
 
                     const message = `Cotação Atual\n\n`
                         + `🪙 Bitcoin: R$ ${truncarDuasCasas(bitcoinPrice).toFixed(2).replace('.', ',')}\n`
                         + `💎 Ethereum: R$ ${truncarDuasCasas(ethereumPrice).toFixed(2).replace('.', ',')}\n`
                         + `💵 Dólar: R$ ${truncarDuasCasas(parseFloat(dolarPrice) || 0).toFixed(2).replace('.', ',')}\n\n`
-                        + `${fontes}`;
+                        // + `${fontes}`;
 
                     await this.sendMessage(chat.id, message);
                 } catch (error) {
