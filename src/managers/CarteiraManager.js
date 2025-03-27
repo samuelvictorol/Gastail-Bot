@@ -20,6 +20,15 @@ const CarteiraManager = {
             console.error('Erro ao empilhar ação:', error);
             throw error;
         }
+    },
+    get_acoes_recentes: async (carteirasIds) => {
+        try {
+            const acoes = await CarteiraModel.find({ _id: { $in: carteirasIds } }, { acoes: { $slice: -5 } });
+            return acoes;
+        } catch (error) {
+            console.error('Erro ao buscar ações recentes:', error);
+            throw error;
+        }
     }
 }
 

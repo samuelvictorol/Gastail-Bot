@@ -73,6 +73,9 @@ class GasTailBot {
             case '/start':
                 await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START + BotEnum.REFERENCIA);
                 break;
+            case '/recentes':
+                await this.exeOpcaoMenu(chat, '4');
+                break;
             case '/saldo':
                 const saldoString = await UsuarioManager.get_saldo(chat.id);
                 await this.sendMessage(chat.id, saldoString);
@@ -87,7 +90,7 @@ class GasTailBot {
                 break;
         }
     };
-    
+
     registrarFundos = async (chat, text, tipoCarteira) => {
         const acao = Utils.extrairAcao(text);
         console.log('Ação:', acao);
@@ -130,6 +133,19 @@ class GasTailBot {
             case '3':
                 // registrar compra
                 await this.sendMessage(chat.id, BotEnum.MENU3_INSTRUCAO);
+                break;
+            case '4':
+                // recuperar as últimas 5 ações do usuário
+                const get_acoes_recentes = await CarteiraManager.get_acoes_recentes(this.#usuario.carteiras);
+                let message = '/recentes\n🗒️ Ações Recentes\n\n';
+                get_acoes_recentes.forEach(carteira => {
+                    message += `💸 COMPRA\n`;
+                    carteira.acoes.forEach(acao => {
+                        message += `Compra de ${acao.total} ${carteira.moeda} por ${Utils.formataParaReal(acao.valor)}\n`
+                    });
+                    message += '\n';
+                });
+                await this.sendMessage(chat.id, message);
                 break;
             case '5':
             // mostra a cotação do Bitcoin, Ethereum e Dólar
