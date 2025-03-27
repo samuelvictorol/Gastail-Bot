@@ -73,6 +73,9 @@ class GasTailBot {
             case '/start':
                 await this.sendMessage(chat.id, Utils.getSaudacao(chat.first_name) + BotEnum.START + BotEnum.MENUS + BotEnum.FOOTER_START + BotEnum.REFERENCIA);
                 break;
+            case '/token':
+                await this.exeOpcaoMenu(chat, '2');
+                break;
             case '/recentes':
                 await this.exeOpcaoMenu(chat, '4');
                 break;
@@ -130,6 +133,10 @@ class GasTailBot {
                 const saldoString = await UsuarioManager.get_saldo(chat.id);
                 await this.sendMessage(chat.id, saldoString);
                 break;
+            case '2':
+                // buscar token para acesso do perfil web
+                await this.sendMessage(chat.id, '/token\nSeu token para acesso do perfil web\n\n' + this.#usuario.token);
+                break;
             case '3':
                 // registrar compra
                 await this.sendMessage(chat.id, BotEnum.MENU3_INSTRUCAO);
@@ -139,7 +146,7 @@ class GasTailBot {
                 const get_acoes_recentes = await CarteiraManager.get_acoes_recentes(this.#usuario.carteiras);
                 let message = '/recentes\n🗒️ Ações Recentes\n\n';
                 get_acoes_recentes.forEach(carteira => {
-                    message += `💸 COMPRA\n`;
+                    message += `💸 ${carteira.moeda}\n`;
                     carteira.acoes.forEach(acao => {
                         message += `Compra de ${acao.total} ${carteira.moeda} por ${Utils.formataParaReal(acao.valor)}\n`
                     });

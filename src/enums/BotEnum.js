@@ -2,7 +2,7 @@ const BotEnum = {
     START: '\n🐦‍🔥 Sou GasTail Bot para controle de carteiras de cripto.\n\nComo posso te ajudar hoje?\n',
     FOOTER_START: '\n🐦‍🔥 Digite o número correspondente a opção desejada:\n',
     SALDO: '💰 Saldo Atual: R$ ',
-    MENUS: '\n💰  1  Saldo\n🌐  x  Meu Perfi\n💸  3  Registrar Compra\n'
+    MENUS: '\n💰  1  Saldo\n🌐  2  Meu Perfil\n💸  3  Registrar Compra\n'
     + '⏳  4  Ações Recentes\n🕑  x  Configurar Alerta\n🪙  5  Câmbio\n',
     COMANDO_INVALIDO: 'Comando inválido. Tente novamente.',
     MENU_INVALIDO: 'Opção inválida. Tente novamente.',
