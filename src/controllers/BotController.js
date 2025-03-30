@@ -5,6 +5,7 @@ const Gastail = new GasTailBot();
 
 const BotController = {
     setWebhook: async () => {
+        // Configuração do webhook do Telegram
         try {
             const response = await axios.get(Gastail.FULL_WEBHOOK_URL);
             if (response.status === 200) {

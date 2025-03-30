@@ -2,7 +2,6 @@
 
 const UsuarioManager = require('../managers/UsuarioManager');
 const BotEnum = require("../enums/BotEnum");
-const { Usuario: UsuarioModel } = require("../models/Usuario");
 const dotenv = require('dotenv');
 const axios = require('axios');
 const Utils = require('../Utils');
@@ -12,11 +11,12 @@ dotenv.config();
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BOT_BACKEND_URL = process.env.BOT_BACKEND_URL;
 const BOTCHAT_LINK_TELEGRAM = process.env.BOTCHAT_LINK_TELEGRAM;
-
 class GasTailBot {
     #usuario = null;
     webhook_setup = false;
     BOTCHAT_URL = BOTCHAT_LINK_TELEGRAM;
+    BTC_ETH_URL_API = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=brl';
+    DOLAR_URL_API = 'https://economia.awesomeapi.com.br/json/last/USD-BRL';
 
     constructor() {
         this.WEBHOOK_URL = `${BOT_BACKEND_URL}/${TELEGRAM_BOT_TOKEN}`;
@@ -53,12 +53,6 @@ class GasTailBot {
         } catch (error) {
             console.error('Erro ao enviar mensagem:', error);
         }
-    }
-
-    getGasTailBotInfo = () => {
-        return {
-            usuario: this.#usuario,
-        };
     }
 
     exeComando = async (chat, text) => {
@@ -156,11 +150,10 @@ class GasTailBot {
                 await this.sendMessage(chat.id, message);
                 break;
             case '5':
-            // mostra a cotação do Bitcoin, Ethereum e Dólar
+                // mostra a cotação do Bitcoin, Ethereum e Dólar
                 try {
-                    const btcEthResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=brl');
-                    const dolarResponse = await axios.get('https://economia.awesomeapi.com.br/json/last/USD-BRL');
-
+                    const btcEthResponse = await axios.get(this.BTC_ETH_URL_API);
+                    const dolarResponse = await axios.get(this.DOLAR_URL_API);
                     const bitcoinPrice = btcEthResponse.data.bitcoin.brl;
                     const ethereumPrice = btcEthResponse.data.ethereum.brl;
                     const dolarPrice = dolarResponse.data.USDBRL.bid;
