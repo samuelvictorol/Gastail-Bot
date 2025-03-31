@@ -54,8 +54,9 @@
 ## Dependências Externas
 - ChartJS: Criação de dashboards no frontend;
 - Mongoose: Modelador que abstrai as de entidades mongodb para facilitar interação com dados no banco;
-- Nodemon: DevTool para hotreload de servidores nodejs;
-
+- Nodemon: DevTool para hot reload de servidores nodejs;
+- UUID: Gerador de identificadores únicos;
+  
 # 🏗️ Ambiente de Desenvolvimento
 ## 🐋 Rodando o projeto com Docker
 - [ ] Configure as variáveis de ambiente.
