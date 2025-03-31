@@ -51,7 +51,9 @@
 > A base de dados do Projeto está em produção na url: [Gastail Database](https://cloud.mongodb.com/v2/67aa609b61c70d27b71fcc76#/metrics/replicaSet/67aa6181f84ff70f87a7315d/explorer/Projeto-1-db/acaos/find)<br>
 
 
-## Dependências Externas
+## Dependências Externas e Ferramentas
+- Docker: Criar conteiner para rodar o serviço;
+- NGROK: Expor um serviço local sem necessidade de deploy;
 - ChartJS: Criação de dashboards no frontend;
 - Mongoose: Modelador que abstrai as de entidades mongodb para facilitar interação com dados no banco;
 - Nodemon: DevTool para hot reload de servidores nodejs;
