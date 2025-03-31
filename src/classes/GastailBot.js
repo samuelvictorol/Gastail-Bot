@@ -135,7 +135,8 @@ class GasTailBot {
                 break;
             case '2':
                 // buscar token para acesso do perfil web
-                await this.sendMessage(chat.id, '/token\nSeu token para acesso do perfil web:\n\n' + this.#usuario.token);
+                await this.sendMessage(chat.id, '/token\nSeu token para acesso do perfil web:');
+                await this.sendMessage(chat.id, this.#usuario.token);
                 await this.sendMessage(chat.id, '🌍 Acesse em:\n' + process.env.FRONTEND_URL);
                 break;
             case '3':

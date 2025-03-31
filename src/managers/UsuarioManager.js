@@ -19,7 +19,7 @@ const UsuarioManager = {
             username: userData.username,
             saldo: 0,
             chat_id: userData.id,
-            token: 'GasToken:' +  userData.id + userData.username,
+            token: ('GasToken:' +  userData.id + userData.username).toLocaleLowerCase(),
             carteiras: [],
         })
         await novoUsuario.save()
