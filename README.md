@@ -29,6 +29,8 @@
 
 # 🌍 Ambiente de Produção
 
+> Este repositório possui deploy automatizado nas branchs main e frontend
+
 ## Backend - Render
 
 > Linguagem: Javascript<br>
