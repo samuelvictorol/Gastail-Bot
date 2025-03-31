@@ -28,6 +28,11 @@ class GasTailBot {
         console.log('🪝 Webhook configurado com sucesso!');
     }
 
+    setUsuario = (usuario) => {
+        this.#usuario = usuario;
+        console.log('🐦 Usuário:', usuario);
+    }
+
     setUsuarioContext = async (userData) => {
         this.#usuario = await UsuarioManager.criar_usuario(userData)
         .then((usuario) => {

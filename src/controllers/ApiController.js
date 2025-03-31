@@ -21,15 +21,24 @@ const ApiController = {
             return res.status(500).json({ message: 'Error login controller:' });
         }
     },
-    // dash: async (req, res) => {
-    //     try {
-    //         // Aqui você pode adicionar a lógica para retornar os dados do dashboard
-    //         res.status(200).json({ message: 'Dashboard data' });
-    //     } catch (error) {
-    //         console.error('Error fetching dashboard data:', error);
-    //         res.status(500).json({ message: 'Internal server error' });
-    //     }
-    // },
+    dash: async (req, res) => {
+        try {
+            const { token } = req.body;
+            if(!token || token.length < 10) {
+                return res.status(400).json({ message: 'Token inválido' });
+            } else {
+                const userData = await ApiManager.dashboard(token)
+                if (userData) {
+                    return res.status(200).json(userData);
+                } else {
+                    return res.status(401).json({ message: 'Você ainda não possui carteiras ativas para gerar gráficos' });
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+            res.status(500).json({ message: error });
+        }
+    },
     // acoes: async (req, res) => {
     //     try {
     //         // Aqui você pode adicionar a lógica para retornar as ações
