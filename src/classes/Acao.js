@@ -9,6 +9,7 @@ class Acao {
         this.timestamps = new Date();
         this.gerarUUID();
         this.status = 'Compra';
+        this.resultado = 0;
     }
 
     gerarUUID() {

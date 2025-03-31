@@ -67,15 +67,20 @@ const ApiController = {
             res.status(500).json({ message: error });
         }
     },
-    // vender_acao: async (req, res) => {
-    //     try {
-    //         // Aqui você pode adicionar a lógica para vender ações
-    //         res.status(200).json({ message: 'Ação vendida com sucesso' });
-    //     } catch (error) {
-    //         console.error('Error selling action:', error);
-    //         res.status(500).json({ message: 'Internal server error' });
-    //     }
-    // },
+    vender_acao: async (req, res) => {
+        try {
+            const { token, acao } = req.body;
+            if(!token || token.length < 10) {
+                return res.status(400).json({ message: 'Token inválido' });
+            } else {
+                const acaoVender = await ApiManager.vender_acao(token, acao)
+                return res.status(200).json(acaoVender);
+            }
+        } catch (error) {
+            console.error('Error fetching acoes data:', error);
+            res.status(500).json({ message: error });
+        }
+    },
 
 }
 

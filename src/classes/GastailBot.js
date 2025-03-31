@@ -150,7 +150,7 @@ class GasTailBot {
                 get_acoes_recentes.forEach(carteira => {
                     message += `💸 ${carteira.moeda}\n`;
                     carteira.acoes.forEach(acao => {
-                        message += `Compra de ${acao.total} ${carteira.moeda} por ${Utils.formataParaReal(acao.valor)}\n`
+                        message += `${acao.status} de ${acao.total} ${carteira.moeda} por ${Utils.formataParaReal(acao.valor)}\n`
                     });
                     message += '\n';
                 });

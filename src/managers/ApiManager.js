@@ -76,6 +76,7 @@ const ApiManager = {
                     status: acao.status,
                     total: acao.total,
                     valorPago: acao.valor,
+                    resultado: acao.resultado,
                     valorAtual: valorAtualMoeda,
                     icon: acao.valor > valorAtualMoeda ? 'trending_down' : 'trending_up'
                 });
@@ -84,6 +85,43 @@ const ApiManager = {
     
         return acoes;
     },
+    vender_acao: async (token, acaoObj) => {
+        console.log('vender_acao antes', token, acaoObj);
+        const user = await UsuarioModel.findOne({ token: token });
+        if (!user) {
+            return null;
+        }
+    
+        await user.populate('carteiras');
+        let acao = null;
+    
+        // Loop pelas carteiras do usuário
+        for (let carteira of user.carteiras) {
+            // Encontrar a ação no array de ações
+            acao = carteira.acoes.find(a => a.id === acaoObj.id);
+            if (acao) {
+                // Atualiza a ação
+                acao.status = 'Venda';
+                acao.resultado = acaoObj.valorAtual - acaoObj.valorPago;
+    
+                // Remove a ação antiga e adiciona a ação atualizada
+                carteira.acoes = carteira.acoes.filter(a => a.id !== acaoObj.id);
+                carteira.acoes.push(acao);  // Adiciona a ação modificada
+    
+                // Salva a carteira com a ação atualizada
+                await carteira.save();  // Persiste as alterações no banco
+                break;
+            }
+        }
+    
+        // Se a ação não foi encontrada, retorna null
+        if (!acao) {
+            return null;
+        }
+        console.log('vender_acao depois', acao);
+        return acao;
+    }
+    
     
 }
 
