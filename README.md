@@ -2,7 +2,7 @@
 
 ## 💡 [Visualizar Board](https://whimsical.com/gastail-bot-C5Pf2PrrrYgAQMaoXXVUEg)
 
-[![image](https://github.com/user-attachments/assets/9683edc5-1768-4f74-8075-b2329cd2eb8a)](https://samuelvictorol.github.io/portfolio/portfolio)
+[![image](https://github.com/user-attachments/assets/e2a37ac9-9346-48f5-82c5-6c4482633096)](https://samuelvictorol.github.io/portfolio/portfolio)
 
 
 # 🏯 Arquitetura
@@ -14,20 +14,18 @@
 
 # 📚 Requisitos do Projeto
 ## Bot [Telegram]
- - [ ] O Gastail deverá cadastrar o usuário;
- - [ ] O Gastail deverá permitir o usuário registrar suas compras de cripto;
- - [ ] O Gastail deverá permitir o usuário configurar alertas de preços das moedas;
- - [ ] O Gastail deverá gerar o token para acesso do perfil web do usuário;
- - [ ] O Gastail deverá mostrar o valor em Real das cripto moedas: BTC, ETH e USDT;
+ - [x] O Gastail deverá cadastrar o usuário;
+ - [x] O Gastail deverá permitir o usuário registrar suas compras de cripto;
+ - [x] O Gastail deverá gerar o token para acesso do perfil web do usuário;
+ - [x] O Gastail deverá mostrar as ações recentes do usuário;
+ - [x] O Gastail deverá mostrar o valor em Real das cripto moedas: BTC, ETH e USDT;
 
 ## Servidores [Frontend e Backend]
-- [ ] O servidor deverá acessar o perfil do usuário a partir do token;
-- [ ] O servidor deverá ter um gráfico mostrando dados da carteira do usuário;
+- [x] O servidor deverá acessar o perfil do usuário a partir do token;
+- [x] O servidor deverá ter um gráfico mostrando dados da carteira do usuário;
 - [ ] O servidor deverá permitir o usuário registrar a venda do bloco de ação;
-- [ ] O servidor deverá sinalizar no bloco de ação se está lucrando ou perdendo;
-- [ ] O servidor deverá permitir o usuário remover alertas cadastrados;
-- [ ] O servidor deverá se integrar à base para persistir os dados que serão posteriormente recuperados;
-
+- [x] O servidor deverá sinalizar no bloco de ação se está lucrando ou perdendo;
+- [x] O servidor deverá se integrar à base para persistir os dados que serão posteriormente recuperados;
 
 # 🌍 Ambiente de Produção
 
@@ -41,7 +39,7 @@
 
 > Linguagem: Javascript<br>
 > Framework: Quasar + Vue3<br>
-> O Frontend do Projeto está em produção na url: <br>
+> O Frontend do Projeto está em produção na url: https://gastail.netlify.app
 
 ## Banco de Dados - Mongodb
 
@@ -75,9 +73,12 @@
  - BOT_BACKEND_URL
  - CONNECTION_STRING (mongodb)
  - PORT (5000 padrão)
+ - FRONTEND_URL
 <br>
 
-![image](https://github.com/user-attachments/assets/30ff243c-aac2-47bc-95c9-a1f5fb00300d)
+![image](https://github.com/user-attachments/assets/11df42d6-b5ce-45a0-b00f-711c36d906fd)
+![image](https://github.com/user-attachments/assets/9267ec66-d6d0-42d3-970a-b97293a6368a)
+
 
 > Por: [Samuel Victor](https://samuelvictorol.github.io/portfolio/)<br>
 
