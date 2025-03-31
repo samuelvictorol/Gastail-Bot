@@ -12,6 +12,9 @@
         Criado em: {{ formatarDataHora(usuario.createdAt) }}
       </q-card-section>
     </q-card>
+    <div class="w100 text-center q-py-md text-h5 text-bold">
+      💰 Carteiras
+    </div>
     <div v-if="loading" class="loading row w100 no-wrap justify-center q-gutter-x-sm">
       <q-spinner-dots
       color="orange"
@@ -146,7 +149,7 @@ async function getCarteiras() {
 .wallet-card-1 {
   width: 100%;
   max-width: 400px;
-  background: linear-gradient(to bottom, #b0b0b0, #979797); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top, #535353, #979797); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   backdrop-filter: blur(10px);
   border-radius: 8px;
   padding: 20px;
