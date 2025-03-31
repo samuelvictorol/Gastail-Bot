@@ -1,23 +1,73 @@
 <template>
-  <q-page class="q-pa-md flex flex-center column">
-    <q-card class="q-mb-lg" bordered>
-      <q-card-section class="text-h6">
-        👋🏼 Olá, {{ usuario.first_name }}!
+  <q-page class="q-pa-md flex flex-center column" v-if="usuario != null">
+    <q-card class="q-mb-lg border-bottom" bordered>
+      <q-card-section class="text-h5 text-center w100">
+        {{ usuario.nome }}
       </q-card-section>
       <q-card-section class="text-subtitle2">
         Chat ID: {{ usuario.chat_id }}
       </q-card-section>
       <q-card-section class="text-subtitle2">
-        Criado em: {{ usuario.createdAt }}
+        Criado em: {{ formatarDataHora(usuario.createdAt) }}
       </q-card-section>
     </q-card>
-    <div v-for="carteira in carteiras" :key="carteira.id" class="wallet-card relative">
+    <div v-if="loading" class="loading row w100 no-wrap justify-center q-gutter-x-sm">
+      <q-spinner-dots
+      color="orange"
+      size="2em"
+    />
+    <q-spinner-dots
+    color="red"
+    size="2em"
+    />
+    <q-spinner-dots
+    color="yellow-14"
+    size="2em"
+    />
+    </div>
+    <div class="wallet-card-1 relative" v-if="carteiras != null && loading == false">
         <div class="wallet-header w100 justify-between q-px-md">
-          <img :src="carteira.icone" alt="Ícone Moeda" class="wallet-icon">
-          <span class="wallet-name text-h5">{{ carteira.moeda }}</span>
+          <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/14022367-icone-de-de-logotipo-de-saco-de-dinheiro-um-saco-de-dinheiro-preto-e-branco-com-cifrao-vetor.jpg" alt="Ícone Moeda" class="wallet-icon">
+          <span class="wallet-name text-h5">Total</span>
         </div>
-        <div class="wallet-balance" v-if="carteira.saldo > 0">
-          <span class="balance">{{ carteira.saldo }}</span>
+        <div class="wallet-balance">
+          <span class="balance ">{{ carteiras.saldo }}</span>
+        </div>
+      </div>
+    <div class="wallet-card relative" v-if="carteiras != null && loading == false">
+        <div class="wallet-header w100 justify-between q-px-md">
+          <img src="https://www.creativefabrica.com/wp-content/uploads/2021/06/14/Cryptocurrency-Tether-Usdt-Logo-Graphics-13393983-1.jpg" alt="Ícone Moeda" class="wallet-icon">
+          <span class="wallet-name text-h5">Tether</span>
+        </div>
+        <div class="wallet-balance column ">
+          <span class="balance">$ {{ carteiras.usdt }}</span>
+        </div>
+        <div class="wallet-balance column text-green-14">
+          <span class="balance">{{ carteiras.usdtBrl }}</span>
+        </div>
+      </div>
+    <div class="wallet-card relative" v-if="carteiras != null && loading == false">
+        <div class="wallet-header w100 justify-between q-px-md">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png" alt="Ícone Moeda" class="wallet-icon">
+          <span class="wallet-name text-h5">Bitcoin</span>
+        </div>
+        <div class="wallet-balance column ">
+          <span class="balance">🪙 {{ carteiras.btc }}</span>
+        </div>
+        <div class="wallet-balance column text-green-14">
+          <span class="balance">{{ carteiras.btcBrl }}</span>
+        </div>
+      </div>
+    <div class="wallet-card relative" v-if="carteiras != null && loading == false">
+        <div class="wallet-header w100 justify-between q-px-md">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9MoxYn2yoPOlth1JLi7-5AbW-IQtcxz6y9w&s" alt="Ícone Moeda" class="wallet-icon">
+          <span class="wallet-name text-h5">Ethereum</span>
+        </div>
+        <div class="wallet-balance column ">
+          <span class="balance">🪙 {{ carteiras.eth }}</span>
+        </div>
+        <div class="wallet-balance column text-green-14">
+          <span class="balance">{{ carteiras.ethBrl }}</span>
         </div>
       </div>
   </q-page>
@@ -27,11 +77,15 @@
 import { useQuasar } from 'quasar';
 import { onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { api } from 'src/boot/axios';
 
 const $q = useQuasar();
 const router = useRouter();
+const usuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
-onBeforeMount(() => {
+const carteiras = ref(null);
+const loading = ref(true);
+onBeforeMount(async () => {
   const user = localStorage.getItem('user');
   if (!user) {
     $q.notify({
@@ -42,20 +96,34 @@ onBeforeMount(() => {
     });
     router.push('/');
   }
+  await getCarteiras();
 });
 
-const usuario = ref({
-  first_name: 'Samuel Victor',
-  chat_id: 123456789,
-  createdAt: '27/03/2025 12:00',
-})
+function formatarDataHora (data) {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+  return new Date(data).toLocaleString('pt-BR', options);
+}
 
-const carteiras = ref([
-  { id: 1, moeda: 'Total', saldo: 12543.23, icone: 'https://static.vecteezy.com/ti/vetor-gratis/p1/14022367-icone-de-de-logotipo-de-saco-de-dinheiro-um-saco-de-dinheiro-preto-e-branco-com-cifrao-vetor.jpg'},
-  { id: 2, moeda: 'BTC', saldo: 0.030870, saldoBrl: 5000, icone: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png'},
-  { id: 3, moeda: 'ETH', saldo: 0, saldoBrl: 0, icone: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9MoxYn2yoPOlth1JLi7-5AbW-IQtcxz6y9w&s' },
-  { id: 4, moeda: 'USDT', saldo: 2, saldoBrl: 12.32, icone: 'https://www.creativefabrica.com/wp-content/uploads/2021/06/14/Cryptocurrency-Tether-Usdt-Logo-Graphics-13393983-1.jpg' }
-]);
+
+async function getCarteiras() {
+  loading.value = true;
+  await api.post('/saldo', { token: usuario.token })
+    .then((response) => {
+      carteiras.value = response.data;
+    })
+    .catch((error) => {
+      $q.notify({
+        color: 'negative',
+        position: 'top',
+        message: error.response.data.message,
+        icon: 'report_problem'
+      });
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+}
+
 </script>
 
 <style scoped>
@@ -63,6 +131,21 @@ const carteiras = ref([
   width: 100%;
   max-width: 400px;
   background: linear-gradient(to bottom, #1C0000, #440000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.519);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+.wallet-card-1 {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(to bottom, #b0b0b0, #979797); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   backdrop-filter: blur(10px);
   border-radius: 8px;
   padding: 20px;

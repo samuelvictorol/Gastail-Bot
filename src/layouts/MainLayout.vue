@@ -12,7 +12,7 @@
       </q-toolbar>
 
       <q-tabs align="center">
-        <q-route-tab to="/" label="Meu Perfil" />
+        <q-route-tab to="/app" label="Carteiras" />
         <q-route-tab to="/page2" label="Ações" />
       </q-tabs>
     </q-header>
