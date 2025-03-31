@@ -1,5 +1,5 @@
 const { Usuario: UsuarioModel } = require('../models/Usuario');
-
+const UsuarioManager = require('./UsuarioManager');
 const ApiManager = {
     login: async (token) => {
         const user = await UsuarioModel.findOne({ token:  token  });
@@ -40,7 +40,14 @@ const ApiManager = {
         });
         return responseObj;
     },
-
+    saldo: async (token) => {
+        const user = await UsuarioModel.findOne({ token:  token  });
+        if (!user) {
+            return null;
+        }
+        const saldoStr = await UsuarioManager.getSaldoObject(user.chat_id);
+        return saldoStr;
+    }
 }
 
 module.exports = ApiManager;

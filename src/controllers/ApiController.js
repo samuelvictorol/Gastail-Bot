@@ -39,6 +39,20 @@ const ApiController = {
             res.status(500).json({ message: error });
         }
     },
+    saldo: async (req, res) => {
+        try {
+            const { token } = req.body;
+            if(!token || token.length < 10) {
+                return res.status(400).json({ message: 'Token inválido' });
+            } else {
+                const saldoStr = await ApiManager.saldo(token)
+                return res.status(200).json(saldoStr);
+            }
+        } catch (error) {
+            console.error('Error fetching saldo data:', error);
+            res.status(500).json({ message: error });
+        }
+    }
     // acoes: async (req, res) => {
     //     try {
     //         // Aqui você pode adicionar a lógica para retornar as ações
@@ -57,15 +71,7 @@ const ApiController = {
     //         res.status(500).json({ message: 'Internal server error' });
     //     }
     // },
-    // saldo: async (req, res) => {
-    //     try {
-    //         // Aqui você pode adicionar a lógica para retornar o saldo
-    //         res.status(200).json({ message: 'Saldo data' });
-    //     } catch (error) {
-    //         console.error('Error fetching saldo data:', error);
-    //         res.status(500).json({ message: 'Internal server error' });
-    //     }
-    // }
+
 }
 
 module.exports = ApiController;
