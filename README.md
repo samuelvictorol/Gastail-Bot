@@ -2,7 +2,7 @@
 
 ## 💡 [Visualizar Board](https://whimsical.com/gastail-bot-C5Pf2PrrrYgAQMaoXXVUEg)
 
-[![image](https://github.com/user-attachments/assets/e2a37ac9-9346-48f5-82c5-6c4482633096)](https://samuelvictorol.github.io/portfolio/portfolio)
+[![image](https://github.com/user-attachments/assets/e2a37ac9-9346-48f5-82c5-6c4482633096)](https://gastail.netlify.app)
 
 
 # 🏯 Arquitetura
@@ -23,7 +23,7 @@
 ## Servidores [Frontend e Backend]
 - [x] O servidor deverá acessar o perfil do usuário a partir do token;
 - [x] O servidor deverá ter um gráfico mostrando dados da carteira do usuário;
-- [ ] O servidor deverá permitir o usuário registrar a venda do bloco de ação;
+- [x] O servidor deverá permitir o usuário registrar a venda do bloco de ação;
 - [x] O servidor deverá sinalizar no bloco de ação se está lucrando ou perdendo;
 - [x] O servidor deverá se integrar à base para persistir os dados que serão posteriormente recuperados;
 
