@@ -9,13 +9,31 @@
       <div class="dashboards" v-if="!loading">
         <div class="charts-wrapper">
           <div class="chart-container">
-            <div class="text-h6">Distribuição dos Saldos</div>
             <canvas ref="saldoChart"></canvas>
           </div>
-  
           <div class="chart-container">
-            <div class="text-h6">Distribuição das Ações</div>
             <canvas ref="acoesChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="acoes" v-if="!loading && acoes.length > 0">
+        <div v-for="moeda in acoes" :key="moeda.moeda" class="moeda-section">
+          <h3>{{ moeda.moeda.toUpperCase() }}</h3>
+          <div class="acoes-list">
+            <q-card v-for="acao in moeda.acoes" :key="acao.id" class="q-mt-sm" 
+                    :style="{ backgroundColor: acao.icon === 'trending_up' ? '#e8f5e9' : '#ffebee' }">
+              <q-card-section>
+                <div class="w100 row justify-between items-center">
+                  <span class="text-bold">{{ acao.status }}</span>
+                  <q-icon :name="acao.icon" :color="acao.icon === 'trending_up' ? 'green' : 'red'" size="lg" />
+                </div>
+                <div class="acao-info">
+                  <p><strong>Total:</strong> {{ acao.total }} {{ moeda.moeda.toLowerCase() }}</p>
+                  <p><strong>Valor Pago:</strong> R$ {{ acao.valorPago }}</p>
+                  <p><strong>Valor Atual:</strong> R$ {{ acao.valorAtual }}</p>
+                </div>
+              </q-card-section>
+            </q-card>
           </div>
         </div>
       </div>
@@ -23,7 +41,7 @@
   </template>
   
   <script setup>
-  import { ref, watch, nextTick } from 'vue';
+  import { ref, watch, nextTick, onBeforeMount } from 'vue';
   import Chart from 'chart.js/auto';
   import ChartDataLabels from 'chartjs-plugin-datalabels'; // Importa o plugin
   import { api } from 'src/boot/axios';
@@ -41,6 +59,22 @@
     usdtAcoes: 0
   });
   
+  const acoes = ref([]);
+
+  async function getAcoes () {
+    const token = JSON.parse(localStorage.getItem('user'))?.token;
+    if (!token) {
+      window.location.href = '/';
+      return;
+    }
+    try {
+      const response = await api.post('/acoes', { token: token });
+      acoes.value = response.data;
+    } catch (error) {
+      console.error('Erro ao buscar dados das ações:', error);
+    }
+  }
+
   // Referências do DOM
   const saldoChart = ref(null);
   const acoesChart = ref(null);
@@ -66,7 +100,7 @@
           {
             label: 'Saldos',
             data: [dash.value.btcSaldo, dash.value.ethSaldo, dash.value.usdtSaldo],
-            backgroundColor: ['#FF5733', '#33FF57', '#3357FF'],
+            backgroundColor: ['#FFA500', '#3357FF', '#008080'],
             hoverOffset: 4
           }
         ]
@@ -80,7 +114,7 @@
           datalabels: {
             color: '#fff',
             font: { weight: 'bold', size: 14 },
-            formatter: (value) => value // Formata os valores com 2 casas decimais
+            formatter: (value) => value.toFixed(6)
           }
         }
       }
@@ -95,7 +129,7 @@
           {
             label: 'Ações',
             data: [dash.value.btcAcoes, dash.value.ethAcoes, dash.value.usdtAcoes],
-            backgroundColor: ['#FFA500', '#800080', '#008080'],
+            backgroundColor: ['#FFA500', '#3357FF', '#008080'],
             hoverOffset: 4
           }
         ]
@@ -116,9 +150,7 @@
     });
   };
   
-  // Buscar os dados da API e atualizar os gráficos
   const fetchData = async () => {
-    loading.value = true;
     const token = JSON.parse(localStorage.getItem('user'))?.token;
     if (!token) {
       window.location.href = '/';
@@ -145,8 +177,12 @@
     }
   });
   
-  // Chamar a API ao iniciar
-  fetchData();
+ onBeforeMount(async () => {
+    loading.value = true;
+    await fetchData();
+    await getAcoes();
+    loading.value = false;
+  });
   </script>
   
   <style scoped>
@@ -167,5 +203,6 @@
     width: 100% !important;
     height: 100% !important;
   }
+  
   </style>
   
