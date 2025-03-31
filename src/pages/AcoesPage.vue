@@ -21,18 +21,22 @@
           <h3>{{ moeda.moeda.toUpperCase() }}</h3>
           <div class="acoes-list">
             <q-card v-for="acao in moeda.acoes" :key="acao.id" class="q-mt-sm" 
-                    :style="{ backgroundColor: acao.icon === 'trending_up' ? '#e8f5e9' : '#ffebee' }">
+                    :style="{ backgroundColor: acao.status === 'Venda' ? '#ececec' : (acao.icon === 'trending_up' ? '#e8f5e9' : '#ffebee') }">
               <q-card-section>
                 <div class="w100 row justify-between items-center">
                   <span class="text-bold">{{ acao.status }}</span>
-                  <q-icon :name="acao.icon" :color="acao.icon === 'trending_up' ? 'green' : 'red'" size="lg" />
+                  <q-icon v-if="acao.status === 'Compra'" :name="acao.icon" :color="acao.icon === 'trending_up' ? 'green' : 'red'" size="lg" />
                 </div>
                 <div class="acao-info">
+                  <p v-if="acao.resultado && acao.status === 'Venda'"><strong>Resultado:</strong> R$ {{ acao.resultado }}</p>
                   <p><strong>Total:</strong> {{ acao.total }} {{ moeda.moeda.toLowerCase() }}</p>
                   <p><strong>Valor Pago:</strong> R$ {{ acao.valorPago }}</p>
                   <p><strong>Valor Atual:</strong> R$ {{ acao.valorAtual }}</p>
                 </div>
               </q-card-section>
+              <q-card-actions class="justify-end">
+                <q-btn v-if="acao.status === 'Compra'" color="blue-14" glossy icon-right="payments" label="Vender" @click="venderAcao(acao)" />
+              </q-card-actions>
             </q-card>
           </div>
         </div>
@@ -45,10 +49,12 @@
   import Chart from 'chart.js/auto';
   import ChartDataLabels from 'chartjs-plugin-datalabels'; // Importa o plugin
   import { api } from 'src/boot/axios';
+import { useQuasar } from 'quasar';
   
   // Registra o plugin no Chart.js
   Chart.register(ChartDataLabels);
   
+  const $q = useQuasar();
   const loading = ref(true);
   const dash = ref({
     btcSaldo: 0,
@@ -59,6 +65,30 @@
     usdtAcoes: 0
   });
   
+  async function venderAcao(acao){
+    const confirm = window.confirm(`Você tem certeza que deseja registrar a venda dessa ação?`);
+    if (!confirm) return;
+    const token = JSON.parse(localStorage.getItem('user'))?.token;
+    if (!token) {
+      window.location.href = '/';
+      return;
+    }
+    try {
+      await api.post('/vender-acao', { token: token, acao: acao })
+      $q.notify({
+        color: 'green',
+        textColor: 'white',
+        icon: 'check_circle',
+        message: 'Ação vendida com sucesso!'
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error('Erro ao vender ação:', error);
+    }
+  }
+
   const acoes = ref([]);
 
   async function getAcoes () {

@@ -56,7 +56,7 @@
           <span class="wallet-name text-h5">Bitcoin</span>
         </div>
         <div class="wallet-balance column ">
-          <span class="balance">🪙 {{ carteiras.btc }}</span>
+          <span class="balance">🪙 {{ carteiras.btc.toFixed(6) }}</span>
         </div>
         <div class="wallet-balance column text-green-14">
           <span class="balance">{{ carteiras.btcBrl }}</span>
