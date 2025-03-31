@@ -3,7 +3,7 @@ const router = express.Router();
 const BotRouter = require('./BotRouter');
 const ApiRouter = require('./ApiRouter');
 
-// Utiliza o roteador de bot
+// Declara as rotas do sistema
 router.use('/', BotRouter);
 router.use('/api', ApiRouter);
 

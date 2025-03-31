@@ -10,6 +10,7 @@ const ApiManager = {
         return user;
     },
     dashboard: async (token) => {
+        // retorna um objeto com dados para criação dos graficos no frontend
         const user = await UsuarioModel.findOne({ token:  token  });
         if (!user) {
             return null;
@@ -50,6 +51,7 @@ const ApiManager = {
         return saldoStr;
     },
     acoes: async (token) => {
+        // retorna um objeto com dados das transações nas carteiras do usuário comparando o valor de compra com o atual em tempo real
         const user = await UsuarioModel.findOne({ token: token });
         if (!user) {
             return null;
@@ -60,7 +62,7 @@ const ApiManager = {
 
         await user.populate('carteiras');
 
-        // Usando for...of para garantir a execução assíncrona correta
+        // for...of para garantir a execução assíncrona correta
         for (let carteira of user.carteiras) {
             for (let acao of carteira.acoes) {
                 let moeda = acoes.find(m => m.moeda === acao.tipo);
@@ -86,7 +88,6 @@ const ApiManager = {
         return acoes;
     },
     vender_acao: async (token, acaoObj) => {
-        console.log('vender_acao antes', token, acaoObj);
         const user = await UsuarioModel.findOne({ token: token });
         if (!user) {
             return null;
@@ -114,11 +115,9 @@ const ApiManager = {
             }
         }
     
-        // Se a ação não foi encontrada, retorna null
         if (!acao) {
             return null;
         }
-        console.log('vender_acao depois', acao);
         return acao;
     }
     

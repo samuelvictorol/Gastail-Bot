@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ApiController = require('../controllers/ApiController');
 
-// Definir a rota para o webhook do Telegram
+// Definir as rotas da api
 router.post(`/login`, (req, res) => ApiController.login(req, res));
 router.post(`/saldo`, (req, res) => ApiController.saldo(req, res));
 router.post(`/dash`, (req, res) => ApiController.dash(req, res));

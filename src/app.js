@@ -5,11 +5,12 @@ const conn = require('./db/conn');
 const app = express();
 const BotController = require('./controllers/BotController');
 
+// configura o webhook
 BotController.setWebhook();
+// configura conexão com mongodb
 conn()
 app.use(cors());
 app.use(express.json());
 app.use('/', router);
-// Configura o webhook
 
 module.exports = app;   
