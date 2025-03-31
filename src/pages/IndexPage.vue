@@ -24,7 +24,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+import { onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const $q = useQuasar();
+const router = useRouter();
+
+onBeforeMount(() => {
+  const user = localStorage.getItem('user');
+  if (!user) {
+    $q.notify({
+      color: 'negative',
+      position: 'top',
+      message: 'Você não está logado. Faça login para continuar.',
+      icon: 'report_problem'
+    });
+    router.push('/');
+  }
+});
 
 const usuario = ref({
   first_name: 'Samuel Victor',
