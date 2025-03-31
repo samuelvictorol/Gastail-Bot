@@ -12,13 +12,18 @@
       </q-toolbar>
 
       <q-tabs align="center">
-        <q-route-tab to="/app" label="Carteiras" />
-        <q-route-tab to="/page2" label="Ações" />
+        <q-route-tab to="/app" label="Carteiras"  icon="account_balance_wallet"/>
+        <q-route-tab to="/page2" label="Ações" icon="analytics"/>
       </q-tabs>
     </q-header>
 
     <q-page-container>
       <router-view />
+      <q-footer class="bg-1 text-white">
+        <div class="text-center">
+          Desenvolvidor por <a href="https://samuelvictorol.github.io/portfolio/" target="_blank" class="text-white">Samuel Victor</a>
+        </div>
+      </q-footer>
     </q-page-container>
 
   </q-layout>

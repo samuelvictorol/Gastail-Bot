@@ -2,6 +2,7 @@
   <q-page class="q-pa-md flex flex-center column" v-if="usuario != null">
     <q-card class="q-mb-lg border-bottom" bordered>
       <q-card-section class="text-h5 text-center w100">
+        <q-icon name="account_circle" size="2em" class="q-mb-sm" />
         {{ usuario.nome }}
       </q-card-section>
       <q-card-section class="text-subtitle2">

@@ -1,16 +1,16 @@
 <template>
     <q-layout view="hHh lpR fFf">
         <q-page-container>
-            <q-page class="flex flex-center">
+            <q-page class="flex column justify-center items-center">
                 <q-card class="q-ma-xs" style="width: 350px">
                     <q-card-section class="q-pt-none">
                         <div class="text-h5 text-bold text-red-14 text-center q-mt-md">🐦‍🔥 Entrar no Gastail Web</div>
                     </q-card-section>
 
                     <q-card-section>
-                        <q-input outlined v-model="token" label="Token" autofocus color="green">
+                        <q-input outlined v-model="token" label="Token" color="green">
                             <template v-slot:append>
-                                <q-btn flat color="green" icon="content_copy" @click="colarToken" class="q-ml-xs"></q-btn>
+                                <q-btn flat color="green" icon="content_copy" @click="colarToken()" class="q-ml-xs"></q-btn>
                             </template>
                         </q-input>
                     </q-card-section>
@@ -18,6 +18,11 @@
                     <q-card-actions vertical class="q-pa-none q-mx-md q-mb-md">
                         <q-btn @click="login" label="Login" color="green" icon-right="login" glossy class="full-width q-mb-xs"></q-btn>
                     </q-card-actions>
+                </q-card>
+                <q-card class="q-mt-md">
+                    <q-card-section class="text-center text-red-14">
+                        <a href="https://t.me/GasTail_bot" target="_blank">🤖 Fale com o Bot</a>
+                    </q-card-section>
                 </q-card>
             </q-page>
         </q-page-container>
