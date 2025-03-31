@@ -1,5 +1,5 @@
 const Acao = require('./classes/Acao');
-
+const axios = require('axios');
 const Utils = {
     formataParaReal: (valor) => {
         return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });

@@ -1,4 +1,5 @@
 const { Usuario: UsuarioModel } = require('../models/Usuario');
+const Utils = require('../Utils');
 const UsuarioManager = require('./UsuarioManager');
 const ApiManager = {
     login: async (token) => {
@@ -13,7 +14,7 @@ const ApiManager = {
         if (!user) {
             return null;
         }
-        const carteiras = await user.populate('carteiras');
+        await user.populate('carteiras');
         let responseObj = {
             btcSaldo: 0,
             btcAcoes: 0,
@@ -22,7 +23,7 @@ const ApiManager = {
             usdtSaldo: 0,
             usdtAcoes: 0,
         }
-        carteiras.carteiras.forEach(carteira => {
+        user.carteiras.forEach(carteira => {
             switch(carteira.moeda) {
                 case 'BTC':
                     responseObj.btcSaldo += carteira.saldo;
@@ -47,7 +48,43 @@ const ApiManager = {
         }
         const saldoStr = await UsuarioManager.getSaldoObject(user.chat_id);
         return saldoStr;
-    }
+    },
+    acoes: async (token) => {
+        const user = await UsuarioModel.findOne({ token: token });
+        if (!user) {
+            return null;
+        }
+        let acoes = [
+            // {moeda: 'BTC', acoes: [{ total: 0, valorAtual: 0, icon: 'trending_up' }] }, exemplo de estrutura
+        ];
+
+        await user.populate('carteiras');
+
+        // Usando for...of para garantir a execução assíncrona correta
+        for (let carteira of user.carteiras) {
+            for (let acao of carteira.acoes) {
+                let moeda = acoes.find(m => m.moeda === acao.tipo);
+                if (!moeda) {
+                    moeda = { moeda: acao.tipo, acoes: [] };
+                    acoes.push(moeda);
+                }
+
+                let valorAtualMoeda = await Utils.getValorAtualMoeda(acao.tipo);
+
+                moeda.acoes.push({
+                    id: acao.id,
+                    status: acao.status,
+                    total: acao.total,
+                    valorPago: acao.valor,
+                    valorAtual: valorAtualMoeda,
+                    icon: acao.valor > valorAtualMoeda ? 'trending_down' : 'trending_up'
+                });
+            }
+        }
+    
+        return acoes;
+    },
+    
 }
 
 module.exports = ApiManager;

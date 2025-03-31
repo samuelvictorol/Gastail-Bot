@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');  // Importando a função v4 do pacote uuid
+
 class Acao {
     constructor(tipo, valor, quantidade, total) {
         this.tipo = tipo;
@@ -5,6 +7,12 @@ class Acao {
         this.quantidade = quantidade;
         this.total = total;
         this.timestamps = new Date();
+        this.gerarUUID();
+        this.status = 'Compra';
+    }
+
+    gerarUUID() {
+        this.id = uuidv4();
     }
 }
 

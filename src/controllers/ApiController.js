@@ -52,16 +52,21 @@ const ApiController = {
             console.error('Error fetching saldo data:', error);
             res.status(500).json({ message: error });
         }
-    }
-    // acoes: async (req, res) => {
-    //     try {
-    //         // Aqui você pode adicionar a lógica para retornar as ações
-    //         res.status(200).json({ message: 'Ações data' });
-    //     } catch (error) {
-    //         console.error('Error fetching acoes data:', error);
-    //         res.status(500).json({ message: 'Internal server error' });
-    //     }
-    // },
+    },
+    acoes: async (req, res) => {
+        try {
+            const { token } = req.body;
+            if(!token || token.length < 10) {
+                return res.status(400).json({ message: 'Token inválido' });
+            } else {
+                const acoes = await ApiManager.acoes(token)
+                return res.status(200).json(acoes);
+            }
+        } catch (error) {
+            console.error('Error fetching acoes data:', error);
+            res.status(500).json({ message: error });
+        }
+    },
     // vender_acao: async (req, res) => {
     //     try {
     //         // Aqui você pode adicionar a lógica para vender ações
